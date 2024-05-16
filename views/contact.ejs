@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate')%>
+<div class="mb-3 ">
+    <h3>Contact Us</h3>
+</div>
+<form   action='/contact' method="POST" class="needs-validation" no-validation>
+    <div class="mb-3">
+        <label class="form-label" for="username">Username </label>
+        <input class="form-control" type="text" id="username" name="username" required>
+        <div class="valid-feedback">
+            Correct
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="feedback" >Feedback </label>
+        <textarea name="feedback" id="feedback" cols="30" rows="80" class="form-control"  style="height: 250px;" required></textarea>
+        <div class="valid-feedback">
+            Correct
+        </div>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-success">
+            Submit
+        </button>
+    </div>
+</form>

@@ -1,0 +1,73 @@
+<% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/stylesheet/home.css ">
+<!-- <link rel="stylesheet" href="../leaflet "> -->
+
+<div class="container">
+    <form action="/rideBook" method="POST" >
+    <div class="search-container">
+        <input type="text" id="pickup-input" placeholder="Enter Pickup Location", name= "pickup">
+        
+        <input type="text" id="destination-input" placeholder="Enter Destination" , name = "destination">
+        <div class="passenger-counter">
+            <h2>Number of Passengers</h2>
+            <input type="number" id="Passengers" name="Passengers" min="1" max="4">
+        </div>
+        <button id="search-btn">Search</button>
+    </div>
+   </form>
+   <div id="map-container"></div>
+</div>
+    <script >
+   
+    var platform = new H.service.Platform({
+    'apikey': '9wz-2FV-IE2uN4i0Q65I_oeviRfxmbenvcb9ZFHMq6M'
+});
+
+var defaultLayers = platform.createDefaultLayers();
+
+// Check for geolocation support
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+        let browserPosition = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+        var map = new H.Map(
+            document.getElementById('map-container'),
+            defaultLayers.vector.normal.map, {
+                zoom: 13,
+                center: browserPosition
+            });
+
+        const ui = H.ui.UI.createDefault(map, defaultLayers);
+       
+
+        map.getViewModel().setLookAtData({
+            tilt: 45 // Adjusted tilt value
+        });
+        var mapEvents = new H.mapevents.MapEvents(map);
+        var behavior = new H.mapevents.Behavior(mapEvents);
+
+        window.addEventListener('resize', () => map.getViewPort().resize());
+
+        var marker = new H.map.Marker(browserPosition);
+        map.addObject(marker);
+    }, function(error) {
+        // Handle geolocation error
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    });
+} else {
+    alert('Geo Location not Supported by your Browser')
+}
+
+    </script>

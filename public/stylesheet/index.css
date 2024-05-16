@@ -1,0 +1,34 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Container for wrapping content and footer */
+  .wrapper {
+    min-height: 100%;
+    position: relative;
+  }
+
+  /* Content area */
+  .content {
+    padding-bottom: 60px; /* Height of the footer */
+  }
+
+  /* Footer */
+  .footer {
+    position: relative;
+    margin-top: -60px; /* Negative margin equal to the height of the footer */
+    height: 60px; /* Height of the footer */
+    background-color: #f8f9fa; /* Adjust background color as needed */
+    padding: 20px 0; /* Adjust padding as needed */
+    text-align: center;
+  }
+
+
+  .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('backimg.png'); /* Replace 'background-image.jpg' with your image path */
+    background-size: cover;
+    background-position: top;
+}
+
+h1{
+    margin: 10px;
+}
+
+h3{
+    text-align: center;
+}

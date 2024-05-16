@@ -1,0 +1,109 @@
+<% layout('layouts/driver-boilerplate')%>
+<!-- <link rel="stylesheet" href="/stylesheet/driver_home.css"> -->
+<h1>Hii <%= driver.name%></h1>
+<section>
+  <h2>Pending Requests</h2>
+</div>
+
+<div class="mb-3">
+  <% requests.forEach(request => { %>
+<div class="card" mb-3>
+    <div class="row">
+      
+        <div class="col-md-12">
+            <div class="card-body">
+              <p>Pickup Location: <%= request.pickupLocation.toUpperCase() %></p>
+              <p>Destination: <%= request.destination.toUpperCase() %></p>
+              <p>Fare: <%= request.fare %></p>
+              <p>No. of passenger: <%= request.currentPassengers %></p>
+              <a class="btn btn-primary" href="/accept-request/<%=driver.id%>/<%=request.id%>?token=<%=token%> ">Accept Request</a>
+            </div>
+        </div>
+    </div>
+</div>
+<% });%>
+</div>
+</div> 
+  
+</section>
+
+<!-- Previous Accepted Rides Section -->
+<section>
+  <h2>Previous Accepted Rides</h2>
+</div>
+
+<div class="mb-3">
+  <% driver.acceptedRides.forEach(ride => { %>
+<div class="card" mb-3>
+    <div class="row">
+      
+        <div class="col-md-12">
+            <div class="card-body">
+              <p>Pickup Location: <%= ride.pickupLocation %></p>
+        <p>Destination: <%= ride.destination %></p>
+        <p>Fare: <%= ride.fare %></p>
+        <p>No. of passenger: <%= ride.currentPassengers %></p>
+            </div>
+        </div>
+    </div>
+</div>
+<% }); %>
+</div>
+</div> 
+</section>
+
+<script>
+  // Add event listeners to accept and decline buttons
+  document.addEventListener('DOMContentLoaded', () => {
+    const acceptBtns = document.querySelectorAll('.accept-btn');
+    const declineBtns = document.querySelectorAll('.decline-btn');
+
+    acceptBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const requestId = btn.dataset.requestId;
+        try {
+          // Call API to accept request
+          const response = await fetch('/api/drivers/accept-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requestId }),
+          });
+          const data = await response.json();
+          if (data.success) {
+            // Update UI to reflect accepted request
+            btn.disabled = true;
+            btn.textContent = 'Accepted';
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+
+    declineBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const requestId = btn.dataset.requestId;
+        try {
+          // Call API to decline request
+          const response = await fetch('/api/drivers/decline-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requestId }),
+          });
+          const data = await response.json();
+          if (data.success) {
+            // Update UI to reflect declined request
+            btn.disabled = true;
+            btn.textContent = 'Declined';
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+  });
+</script>
